@@ -1,0 +1,51 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./build/nginx
+      dockerfile: Dockerfile.dev
+    restart: always
+    volumes:
+      - ./api:/app:cached
+    ports:
+      - '80:80'
+  redis:
+    image: 'redis:latest'
+  rabbitmq:
+    image: 'rabbitmq:3.8-rc-management'
+    environment:
+      RABBITMQ_DEFAULT_USER: formation
+      RABBITMQ_DEFAULT_PASS: formation
+    ports:
+      - '15672:15672'
+      - "5672:5672"
+    restart: always
+    volumes:
+      - ./build/rabbitmq:/var/lib/rabbitmq/mnesia
+  postgres:
+    image: 'postgres:latest'
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=pg_password
+#    volumes:
+#      - ./build/postgres/data:/var/lib/postgresql/data
+  php:
+    build:
+      context: ./build/php
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./api:/app:cached
+    ports:
+      - '9000:9000'
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - '8080:8080'
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app

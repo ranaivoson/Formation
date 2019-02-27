@@ -1,14 +1,14 @@
 version: '3'
 services:
-  nginx:
+  api:
     build:
-      context: ./build/nginx
+      context: ./api/build/nginx
       dockerfile: Dockerfile.dev
     restart: always
     volumes:
       - ./api:/app:cached
     ports:
-      - '80:80'
+      - '5000:80'
   redis:
     image: 'redis:latest'
   rabbitmq:
@@ -21,17 +21,15 @@ services:
       - "5672:5672"
     restart: always
     volumes:
-      - ./build/rabbitmq:/var/lib/rabbitmq/mnesia
+      - ./api/build/rabbitmq:/var/lib/rabbitmq/mnesia
   postgres:
     image: 'postgres:latest'
     restart: always
     environment:
       - POSTGRES_PASSWORD=pg_password
-#    volumes:
-#      - ./build/postgres/data:/var/lib/postgresql/data
   php:
     build:
-      context: ./build/php
+      context: ./api
       dockerfile: Dockerfile.dev
     volumes:
       - ./api:/app:cached
@@ -49,3 +47,10 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile.dev
+    ports:
+      - '80:80'
+    restart: always

@@ -47,9 +47,8 @@ RUN echo "dev ALL=(ALL) ALL" > /etc/sudoers
 
 WORKDIR '/app'
 COPY composer.json composer.lock symfony.lock ./
-RUN echo '<?php return [];' > .env.local.php
-RUN set -eux; \
-	composer install --prefer-dist --no-autoloader --no-scripts --no-progress --no-suggest; \
+
+RUN composer install --prefer-dist --no-autoloader --no-scripts --no-progress --no-suggest; \
 	composer clear-cache
 
 COPY bin bin/

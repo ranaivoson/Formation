@@ -9,7 +9,6 @@ before_install:
 
 install:
     - gem install bundler
-    - bundle install
 
 script:
 #    - docker run ranaivoson0/formation-client-test npm test -- --coverage

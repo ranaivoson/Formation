@@ -33,8 +33,6 @@ services:
     volumes:
       - /app/vendor
       - ./api:/app
-    ports:
-      - '9000:9000'
   adminer:
     image: adminer
     restart: always

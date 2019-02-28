@@ -3,12 +3,12 @@ services:
     - docker
 
 before_install:
-#    - docker build -t ranaivoson0/formation-client-test -f ./client/Dockerfile.dev ./client
-    - docker build -t ranaivoson0/formation-php-test -f ./api/Dockerfile.dev ./api
+    - docker build -t ranaivoson0/formation-client-test -f ./client/Dockerfile.dev ./client
+#    - docker build -t ranaivoson0/formation-php-test -f ./api/Dockerfile.dev ./api
 
 script:
-#    - docker run ranaivoson0/formation-client-test npm test -- --coverage
-    - docker run ranaivoson0/formation-php-test php bin/phpunit
+    - docker run ranaivoson0/formation-client-test npm test -- --coverage
+#    - docker run ranaivoson0/formation-php-test php bin/phpunit
 
 after_success:
     - docker build -t ranaivoson0/formation-client ./client

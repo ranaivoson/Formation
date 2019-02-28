@@ -5,15 +5,10 @@ services:
 before_install:
     - docker build -t ranaivoson0/formation-client-test -f ./client/Dockerfile.dev ./client
     - docker build -t ranaivoson0/formation-php-test -f ./api/Dockerfile.dev ./api
-    - docker build -t ranaivoson0/formation-api-test -f ./api/build/nginx/Dockerfile.dev ./api/build/nginx
 
 script:
     - docker run ranaivoson0/formation-client-test npm test -- --coverage
-    - docker run ranaivoson0/formation-php-test -d
-    - docker run -t ranaivoson0/formation-api-test -d
-    - docker-compose exec php bash
-    - php bin/phpunit
-
+    - docker run ranaivoson0/formation-php-test bin/phpunit
 after_success:
     - docker build -t ranaivoson0/formation-client ./client
     - docker build -t ranaivoson0/formation-proxy ./proxy

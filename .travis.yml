@@ -9,8 +9,8 @@ before_install:
 
 script:
     - docker run ranaivoson0/formation-client-test npm test -- --coverage
-    - docker run ranaivoson0/formation-php-test
-    - docker run -t ranaivoson0/formation-api-test
+    - docker run ranaivoson0/formation-php-test -d
+    - docker run -t ranaivoson0/formation-api-test -d
     - docker-compose exec php bash
     - php bin/phpunit
 

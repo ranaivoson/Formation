@@ -8,8 +8,6 @@ services:
     volumes:
       - /app/vendor
       - ./api:/app
-    ports:
-      - '5000:80'
   redis:
     image: 'redis:latest'
   rabbitmq:

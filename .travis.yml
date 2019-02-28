@@ -4,7 +4,7 @@ services:
 
 before_install:
     - docker build -t ranaivoson0/formation-client-test -f ./client/Dockerfile.dev ./client
-    - docker build -t ranaivoson0/formation-api-test -f ./api/build/nginx/Dockerfile.dev ./api/build/Dockerfile
+    - docker build -t ranaivoson0/formation-api-test -f ./api/build/nginx/Dockerfile.dev ./api/build/nginx
     - docker build -t ranaivoson0/formation-php-test -f ./api/Dockerfile.dev ./api
 
 script:

@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile.dev
     restart: always
     volumes:
-      - /app/vendor
+#      - /app/vendor
       - ./api:/app
   redis:
     image: 'redis:latest'
@@ -26,12 +26,14 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=pg_password
+#    volumes:
+#      - ./api/build/pg-data:/var/lib/postgresql/data
   php:
     build:
       context: ./api
       dockerfile: Dockerfile.dev
     volumes:
-      - /app/vendor
+#      - /app/vendor
       - ./api:/app
   adminer:
     image: adminer

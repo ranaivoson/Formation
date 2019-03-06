@@ -10,6 +10,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Firebase\JWT\JWT;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,9 +58,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             return;
         }
 
+        $payload = JWT::decode($apiToken, "formation");
+
         // if a User object, checkCredentials() is called
         return $this->em->getRepository(User::class)
-            ->findOneBy(['apiToken' => $apiToken]);
+            ->findOneBy(['username' => $payload['sub']]);
     }
 
     public function checkCredentials($credentials, UserInterface $user)

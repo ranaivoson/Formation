@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ *
+ * @ORM\Table(name="my_user")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface
@@ -46,31 +50,19 @@ class User implements UserInterface
     private $roles = array();
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\School", mappedBy="myUser", orphanRemoval=true)
      */
-    private $apiToken;
+    private $schools;
+
+    public function __construct()
+    {
+        $this->School = new ArrayCollection();
+        $this->schools = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getApiToken(): string
-    {
-        return $this->apiToken;
-    }
-
-    /**
-     * @param string $apiToken
-     */
-    public function setApiToken(string $apiToken): void
-    {
-        $this->apiToken = $apiToken;
     }
 
     /**
@@ -147,5 +139,34 @@ class User implements UserInterface
         // TODO: Implement eraseCredentials() method.
     }
 
+    /**
+     * @return Collection|School[]
+     */
+    public function getSchools(): Collection
+    {
+        return $this->schools;
+    }
 
+    public function addSchool(School $school): self
+    {
+        if (!$this->schools->contains($school)) {
+            $this->schools[] = $school;
+            $school->setMyUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchool(School $school): self
+    {
+        if ($this->schools->contains($school)) {
+            $this->schools->removeElement($school);
+            // set the owning side to null (unless already changed)
+            if ($school->getMyUser() === $this) {
+                $school->setMyUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

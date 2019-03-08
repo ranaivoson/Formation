@@ -5,10 +5,14 @@ security:
         App\Entity\User:
             # bcrypt or argon2i are recommended
             # argon2i is more secure, but requires PHP 7.2 or the Sodium extension
-            algorithm: bcrypt
+            algorithm: argon2i
             cost: 12
     providers:
-        in_memory: { memory: ~ }
+#        in_memory: { memory: ~ }
+        users:
+            entity:
+                class: 'App\Entity\User'
+                property: 'username'
     firewalls:
         main:
             pattern: ^/

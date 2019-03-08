@@ -8,6 +8,7 @@
 
 namespace App\Security;
 
+use App\Security\Token\Algorithm;
 use Firebase\JWT\JWT;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,20 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerI
 
 class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
+    /**
+     * @var Algorithm
+     */
+    private $algorithm;
+
+    /**
+     * AuthenticationSuccessHandler constructor.
+     * @param Algorithm $algorithm
+     */
+    public function __construct(Algorithm $algorithm)
+    {
+        $this->algorithm = $algorithm;
+    }
+
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
@@ -24,18 +39,9 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
     }
 
     public function handleAuthenticationSuccess(UserInterface $user){
-        $key = "formation_key";
-        $token = array(
-            "iss" => "localhost",
-            "aud" => "localhost",
-            "exp" => time() + 3600,
-            "sub" => $user->getUsername(),
-            "data" => array(
-                "id" => $user->getUsername()
-            )
-        );
 
-        $jwt = JWT::encode($token, $key);
+        $jwt = $this->algorithm->generate($user);
+
         return new JsonResponse(array('token' => $jwt));
     }
 }

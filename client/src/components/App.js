@@ -1,20 +1,18 @@
 import React from 'react';
 import {BrowserRouter, Route} from "react-router-dom";
-import Login from './Login';
-import Register from './Register';
-import Header from './Header';
+import Login from './Login/Login';
+import Register from './Register/Register';
+import Header from './Header/Header';
 
 const App = () => {
     return (
-        <div className="container-fluid">
-            <BrowserRouter>
-                <div>
-                    <Header/>
-                    <Route path="/login" exact component={Login}/>
-                    <Route path="/register" exact component={Register}/>
-                </div>
-            </BrowserRouter>
-        </div>
+        <BrowserRouter>
+            <div>
+                <Header/>
+                <Route path="/login" exact component={Login}/>
+                <Route path="/register" exact component={Register}/>
+            </div>
+        </BrowserRouter>
     );
 };
 

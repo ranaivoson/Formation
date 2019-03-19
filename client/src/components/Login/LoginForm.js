@@ -2,25 +2,34 @@ import React from 'react';
 import {Field, reduxForm} from "redux-form";
 
 class LoginForm extends React.Component {
-    renderInput({input, label, meta}) {
-        console.log(meta);
+    renderInput = ({input, label, type, meta}) => {
+        const className = `form-control ${meta.error && meta.touched ? 'is-invalid' : ''}`;
         return (
             <div className="form-group">
                 <label>{ label }</label>
-                <input className="form-control" {...input}/>
+                <input className={className} {...input} type={type}/>
+                {this.renderError(meta)}
             </div>
         )
+    };
+
+    renderError({error, touched}){
+        if (touched && error){
+            return (
+                <div className="invalid-feedback">{error}</div>
+            );
+        }
     }
 
-    onSubmit(formValues){
-        console.log(formValues);
-    }
+    onSubmit = (formValues) => {
+        this.props.onSubmit(formValues)
+    };
 
     render() {
         return (
             <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="text-left">
-                <Field name="username" component={this.renderInput} label="Username"/>
-                <Field name="password" component={this.renderInput} label="Description"/>
+                <Field name="username" component={this.renderInput} label="Username" type="text"/>
+                <Field name="password" component={this.renderInput} label="Password" type="password"/>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         )

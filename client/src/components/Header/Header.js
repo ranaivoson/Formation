@@ -32,7 +32,6 @@ class Header extends React.Component {
     };
 
     render() {
-        console.log(this.props.isSignedIn);
         const navRight = this.props.isSignedIn ? this.renderNavRightAuthentified() : this.renderNavRight();
         return (
             <div className="navbar navbar-expand-lg navbar-dark bg-dark">

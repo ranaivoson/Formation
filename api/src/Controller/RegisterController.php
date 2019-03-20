@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegisterController extends AbstractController
 {
     /**
-     * @Route("/register", name="register")
+     * @Route("/register", name="register", methods={"POST"})
      */
     public function register()
     {

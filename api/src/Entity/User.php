@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -23,7 +24,7 @@ class User implements UserInterface
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", unique=true)
      */
     private $username;
@@ -31,6 +32,7 @@ class User implements UserInterface
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", unique=true)
      */
     private $email;
@@ -38,6 +40,7 @@ class User implements UserInterface
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(type="string")
      */
     private $password;
